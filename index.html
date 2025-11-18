@@ -1,19 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAGARAN - Annual Cultural Program</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <title>জাগরণ - বার্ষিক সাংস্কৃতিক অনুষ্ঠান</title>
+    <!-- Favicon (Logo) --><link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/pw/AP1GczNHbNhABZ8BJa0UFNNNDlNH4OXE_ozWBGv0HGcMbg-MiLM_ppe7VJPp8MgvJaMdFsr1RgZcJ7_alcy_hExCHAg2femF59oom5YeT7VJPp8MgvJaMdFsr1RgZcJ7_alcy_hExCHAg2femF59oom5YeT90gFC_TeHGONBPJ2eNqeY8ESILp7GSXEIDGY_EXlKIvUu-Jt1M=w953-h953-s-no-gm?authuser=0">
+    
+    <!-- Tailwind CSS CDN --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font (Keeping Inter for a modern look) --><link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Bengali Font (Added for Bengali text display) -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;600;800&display=swap" rel="stylesheet">
+
+
+    <!-- 
+        Mandatory YouTube IFrame Player API Script
+        This script allows us to control the embedded YouTube player (like changing videos).
+    --><script async src="https://www.youtube.com/iframe_api"></script>
+
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            /* Using Baloo Da 2 for a friendly Bengali look, falling back to Inter for English/Code */
+            font-family: 'Baloo Da 2', 'Inter', sans-serif;
             background-color: #f7f7f7;
         }
-        /* Custom styles for video container aspect ratio */
+        
+        /* Custom CSS for the full-width banner image */
+        .banner-image {
+            /* DEFAULT: Desktop/Wider Screens (Using the user-provided desktop URL) */
+            background-image: url('https://lh3.googleusercontent.com/pw/AP1GczPNaBQ8UXSCZFVA36cpmyw_Pq11fEl8J2ZbV3HWp_IG1vRPUEj6Ap3qRf0N4ltnJgpevu-w5qwtBUM0Gkd2KH5h6eE7BRZmpHSRKv3SkCpdlvO5MIp7L4UycARGVQW93-6IoOdqHBFWadM3oo8COrY=w1920-h378-s-no-gm?authuser=0');
+            background-size: cover; 
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 100%;
+        }
+
+        /* MEDIA QUERY: Mobile/Smaller Screens (Up to 767px width) */
+        @media (max-width: 767px) {
+            .banner-image {
+                /* *** ব্যবহারকারীর দেওয়া নতুন মোবাইল ইমেজ ইউআরএল *** */
+                background-image: url('https://lh3.googleusercontent.com/pw/AP1GczPX4rIPKf-IEF7typ7EvWufCDcI3X2wchQRWvQq7GUXss6i67xXz-cJ8_cAIUIkhoRZCB1fwrf2g6F6bFkJstoVyaEyAFqcuAi-Y3Dplr87KSxscWj78K3vF64ef6zwSkrgxyW-R19n7cveUkb8MDQ=w1906-h953-s-no-gm?authuser=0');
+                
+                background-size: cover;
+                background-position: center;
+            }
+        }
+        
+        /* Standard 16:9 Aspect Ratio Container for Video */
         .video-container {
             position: relative;
             width: 100%;
@@ -22,30 +54,21 @@
             overflow: hidden;
             border-radius: 0.75rem; /* rounded-xl */
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            background-color: #111827; /* Dark background for video loading/errors */
         }
-        .video-container iframe,
-        .video-container video {
+        .video-container iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
         }
-        .reel-video {
-            width: 100%;
-            flex-shrink: 0;
-            height: 400px; /* Fixed height for reels */
-            object-fit: cover;
-            border-radius: 0.5rem;
-        }
-        .reel-container-wrapper {
-            transition: transform 0.5s ease-in-out;
-        }
+        
+        /* Navigation styles */
         .nav-button:hover {
             color: #4f46e5;
-            background-color: #eef2ff;
+            background-color: rgba(255, 255, 255, 0.6); 
         }
-        /* Style for the ticket button */
         .ticket-button-cta {
             background: linear-gradient(90deg, #4f46e5 0%, #8b5cf6 100%);
             transition: transform 0.2s, box-shadow 0.2s;
@@ -54,266 +77,377 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(79, 70, 229, 0.5);
         }
-        /* Highlight style for active navigation links */
         .nav-active {
-            background-color: #4f46e5; /* indigo-600 */
+            background-color: #4f46e5;
             color: #ffffff;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         .nav-active:hover {
-            background-color: #4338ca; /* indigo-700 */
+            background-color: #4338ca;
             color: #ffffff;
+        }
+        
+        /* Style for the description section */
+        .description-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Styles for the collapsible Highlights content */
+        .highlights-collapse {
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out; 
+        }
+        .rotated-icon {
+            transform: rotate(180deg) !important;
+        }
+        #toggleHighlightsBtn {
+            min-width: 280px;
+        }
+
+        /* Style for the playlist navigation buttons (Carousel) */
+        .carousel-btn {
+            background-color: #4f46e5;
+            /* Added min-width/min-height for compact buttons */
+            min-width: 48px;
+            min-height: 48px;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        .carousel-btn:hover {
+            background-color: #4338ca;
+            transform: scale(1.05);
+        }
+        .carousel-btn:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
         }
     </style>
 </head>
 <body class="min-h-screen">
-    <div id="app" class="container mx-auto p-4 md:p-8">
 
-        <!-- Navigation Bar -->
-        <header class="flex flex-col md:flex-row justify-between items-center bg-white p-4 md:p-6 rounded-xl shadow-lg mb-12 sticky top-0 z-50">
+    <!-- ১. নেভিগেশান বার (Fixed Overlay) - লিঙ্কগুলি ইংরেজিতেই রাখা হলো -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/30 backdrop-blur-sm p-4 md:p-6 transition duration-300">
+        <!-- Main Container: flex justify-between ensures Home is left and other links are right on ALL screens -->
+        <div class="container mx-auto flex justify-between items-center">
             
-            <!-- Left Group: JAGARAN (Above) and Home (Highlighted) -->
-            <div class="flex flex-col md:flex-row items-center mb-4 md:mb-0">
-                <!-- JAGARAN Text -->
-                <div class="text-3xl font-extrabold text-indigo-600 tracking-wider mb-2 md:mb-0 md:mr-6">
-                    <!-- Updated: Link to Home page URL -->
-                    <a href="https://jagoronculturalsio.github.io/home/">JAGARAN</a>
+            <!-- START OF LEFT GROUP: JAGARAN (Desktop) and Home (Always Left) -->
+            <div class="flex items-center space-x-4">
+                <!-- JAGARAN Text (Hidden on small screens, visible on medium screens and up) -->
+                <div class="hidden md:block text-3xl font-extrabold text-indigo-600 tracking-wider">
+                    <a href="https://jagoronculturalsio.github.io/home/">জাগরণ</a>
                 </div>
+                
                 <!-- Home Button (Highlighted/Active) -->
                 <a href="https://jagoronculturalsio.github.io/home/" id="homeButton" 
-                   class="nav-button nav-active px-4 py-2 rounded-lg transition duration-300">
+                   class="nav-button nav-active px-2 py-1 text-sm md:px-4 md:py-2 md:text-base rounded-lg transition duration-300">
                     Home
                 </a>
             </div>
+            <!-- END OF LEFT GROUP -->
             
-            <!-- Right Group: Nav Links (About, Contact, Address, Ticket) -->
-            <nav class="flex flex-wrap justify-center space-x-2 md:space-x-4 font-semibold">
-                <!-- Updated: Link to About page URL -->
-                <a href="https://jagoronculturalsio.github.io/about/" class="nav-button p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
-                <!-- Updated: Link to Contact page URL -->
-                <a href="https://jagoronculturalsio.github.io/contact/" class="nav-button p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
-                <!-- Updated: Link to Address page URL -->
-                <a href="https://jagoronculturalsio.github.io/address/" class="nav-button p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition duration-300">Address</a>
-                <!-- Ticket button - Now standard style, but link is handled by JS -->
+            <!-- Right Group: Nav Links (About, Contact, Location, Ticket) - ইংরেজিতে রাখা হলো -->
+            <nav class="flex flex-wrap justify-end space-x-2 md:space-x-4 font-semibold">
+                <a href="https://jagoronculturalsio.github.io/about/" class="nav-button px-1 py-0.5 text-sm md:p-2 md:text-base rounded-lg text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                <a href="https://jagoronculturalsio.github.io/contact/" class="nav-button px-1 py-0.5 text-sm md:p-2 md:text-base rounded-lg text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                <a href="https://jagoronculturalsio.github.io/address/" class="nav-button px-1 py-0.5 text-sm md:p-2 md:text-base rounded-lg text-gray-700 hover:bg-gray-100 transition duration-300">Location</a>
                 <button id="navTicketButton" 
-                    class="nav-button text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-300 shadow-sm border border-gray-200"
+                    class="nav-button text-gray-700 px-1 py-0.5 text-sm md:px-4 md:py-2 md:text-base rounded-lg hover:bg-gray-100 transition duration-300 shadow-sm border border-gray-200"
                     onclick="handleTicketClick()">
                     Ticket
                 </button>
             </nav>
-        </header>
+        </div>
+    </header>
+
+    <!-- ২. ব্যানার/হিরো সেকশন (Full Width) -->
+    <div id="banner" class="banner-image w-full h-[35vh] md:h-[40vh] mt-[70px] md:mt-[92px]"></div>
+    
+    <!-- ৩. মূল কনটেন্ট কন্টেইনার (Centered) -->
+    <div id="app-content" class="container mx-auto p-4 md:p-8 pt-0">
+
+        <!-- মূল শিরোনাম সেকশন (ব্যানারের নিচে) -->
+        <section id="home" class="text-center pt-8">
+            <h1 class="text-4xl md:text-6xl font-black text-gray-800 mb-4">
+                <span class="text-indigo-600">জাগরণ</span> সাংস্কৃতিক উৎসব
+            </h1>
+            <p class="text-xl text-gray-500">বার্ষিক সাংস্কৃতিক জাগরণ। একটি অবিস্মরণীয় উদযাপনে আমাদের সাথে যোগ দিন।</p>
+        </section>
 
         <main class="space-y-16">
 
-            <!-- Main Title Section -->
-            <section id="home" class="text-center pt-8">
-                <h1 class="text-5xl md:text-7xl font-black text-gray-800 mb-4">
-                    Experience <span class="text-indigo-600">JAGARAN</span>
-                </h1>
-                <p class="text-xl text-gray-500">The Annual Cultural Awakening. Join us for an unforgettable celebration.</p>
-            </section>
-
-            <!-- 1. Main YouTube Video Section -->
+            <!-- ১. প্রধান ইউটিউব ভিডিও সেকশন -->
             <section id="main-video-section" class="max-w-4xl mx-auto" aria-label="Program Details Video">
-                <h2 class="text-3xl font-bold text-gray-700 mb-4 text-center">Program Highlights (Video Details)</h2>
+                <!-- *** শিরোনামের পরিবর্তন আগের ধাপে করা হয়েছে *** -->
+                <h2 class="text-3xl font-bold text-gray-700 mb-4 text-center">আমাদের উৎসবে আপনাদের সকলকে জানাই আন্তরিক অভ্যর্থনা।</h2>
                 <div id="mainVideoContainer" class="video-container">
-                    <!-- 
-                        YouTube embed URL parameters:
-                        ?autoplay=1 - Essential for attempting autoplay on most browsers.
-                        &loop=1&playlist=mc1xggktlro - Loops the video.
-                        &controls=0 - Hides controls for a cleaner look. 
-                    -->
-                    <iframe 
+                    <!-- Main Video Iframe --><iframe 
                         id="mainVideoFrame"
                         src="https://www.youtube.com/embed/mc1xggktlro?autoplay=1&loop=1&playlist=mc1xggktlro&controls=0&playsinline=1"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
                         allowfullscreen
-                        title="JAGARAN Program Details Video"
+                        title="জাগরণ প্রোগ্রাম বিবরণ ভিডিও"
                         frameborder="0">
                     </iframe>
                 </div>
-                <div class="text-center text-sm text-gray-400 mt-2">
-                    Note: Video is muted by default for autoplay compliance. Please unmute manually if needed.
-                </div>
             </section>
 
-            <!-- 2. Reels/Short Videos Section (Carousel) -->
-            <section id="reels-section" class="py-10 bg-white rounded-xl shadow-xl">
-                <h2 class="text-3xl font-bold text-gray-700 mb-6 text-center">Sneak Peek - JAGARAN Reels</h2>
-                <div class="relative max-w-lg mx-auto overflow-hidden">
-                    
-                    <!-- Reels Container -->
-                    <div id="reelCarousel" class="reel-container-wrapper flex">
-                        <!-- Reel 1 -->
-                        <div class="p-2">
-                            <video id="reel1" class="reel-video" controls loop playsinline preload="auto">
-                                <source src="https://assets.mixkit.co/videos/preview/mixkit-girl-smiling-on-a-beach-at-sunset-41804-large.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                            <p class="text-center text-sm text-gray-500 mt-2">Past Year's Vibe</p>
-                        </div>
-                        <!-- Reel 2 -->
-                        <div class="p-2">
-                            <video id="reel2" class="reel-video" controls loop playsinline preload="auto">
-                                <source src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-a-man-doing-a-stunt-on-a-skateboard-35074-large.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                            <p class="text-center text-sm text-gray-500 mt-2">Dance Performance Glimpse</p>
-                        </div>
-                        <!-- Reel 3 -->
-                        <div class="p-2">
-                            <video id="reel3" class="reel-video" controls loop playsinline preload="auto">
-                                <source src="https://assets.mixkit.co/videos/preview/mixkit-young-man-playing-the-guitar-in-nature-1510-large.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                            <p class="text-center text-sm text-gray-500 mt-2">Music Night</p>
-                        </div>
+            <!-- ২. বিবরণ সেকশন -->
+            <section id="description-section" class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-700 mb-4 text-center">বিবরণ</h2>
+                <div class="description-card">
+                    <p class="text-gray-700 text-base mb-4">
+                        সংস্কৃতি ও বিনোদন আমাদের জীবনের এক অবিচ্ছেদ্য অংশ। আমাদের দৈনন্দিন জীবনের ব্যস্ততা থেকে সতেজ মুক্তি দিতে, তামুদ্দুন শিল্পীগোষ্ঠী পরিবার, আত্মীয়স্বজন এবং বন্ধুদের সাথে উপভোগ করার জন্য একটি স্বাস্থ্যকর সাংস্কৃতিক অনুষ্ঠান উপহার দিতে পেরে আনন্দিত।
+                    </p>
+                    <p class="text-gray-700 text-base mb-4">
+                        সংস্কৃতি আমাদের সামাজিক জীবনের মধ্যে লুকিয়ে থাকা আনন্দ, দুঃখ এবং আবেগের গল্পগুলিকে প্রতিফলিত করে। এটি সমাজে বিপ্লব বা চিরাচরিত মানসিকতার পরিবর্তন ঘটাতে পারে। মূল্যবোধ-ভিত্তিক সংস্কৃতির অনুশীলন একটি সুস্থ সমাজ গড়ে তোলে। আমাদের লক্ষ্য হল শিক্ষামূলক ও আলোকিত সংস্কৃতির প্রচার করে অশ্লীলতা এবং সাংস্কৃতিক অবক্ষয়কে প্রতিহত করা।
+                    </p>
+                    <p class="text-gray-700 text-base mb-4">
+                        এই লক্ষ্যকে সামনে রেখে, "জাগরণ সাংস্কৃতিক উৎসব" নামে একটি ঐতিহাসিক সাংস্কৃতিক অনুষ্ঠান আগামী ২৮শে ডিসেম্বর উত্তর ২৪ পরগনা জেলার বিমানবন্দর সংলগ্ন গোপালপুর হাউসে অনুষ্ঠিত হতে চলেছে।
+                    </p>
+                    <p class="text-gray-800 text-base text-center mt-6">
+                        আমরা আপনাদের সকলকে, আপনাদের বন্ধু-বান্ধব ও পরিবারের সদস্যদের সাথে এই অনুষ্ঠানে যোগ দেওয়ার জন্য আন্তরিকভাবে আমন্ত্রণ জানাচ্ছি। আপনাদের উপস্থিতি একান্ত কাম্য।
+                    </p>
+                </div>
+            </section>
+            
+            <!-- উৎসবের মূল আকর্ষণ টগল সেকশন -->
+            <section id="highlights-toggle-section" class="max-w-4xl mx-auto py-8">
+                <div class="text-center">
+                    <button id="toggleHighlightsBtn" 
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full shadow-xl transition duration-300 flex items-center justify-center mx-auto"
+                        aria-expanded="false" 
+                        aria-controls="highlights-content">
+                        উৎসবের মূল আকর্ষণ
+                        <svg id="toggleIcon" class="w-5 h-5 ml-2 transition-transform duration-300 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                </div>
+                
+                <!-- Collapsible Content -->
+                <div id="highlights-content" class="highlights-collapse mt-6" style="max-height: 0;">
+                    <div class="description-card p-6 md:p-8 bg-indigo-50 border border-indigo-200">
+                        <h3 class="text-2xl font-extrabold text-indigo-700 mb-4 border-b pb-2">প্রধান আকর্ষণ</h3>
+                        <ul class="space-y-3 text-left text-gray-700 list-disc pl-5">
+                            <li><span class="font-semibold text-indigo-600">সাংস্কৃতিক পরিবেশনা:</span> বিভিন্ন ধরনের গান, নৃত্য ও কবিতা আবৃত্তি।</li>
+                            <li><span class="font-semibold text-indigo-600">ইন্টারেক্টিভ কর্মশালা:</span> ঐতিহ্যবাহী শিল্পকলা এবং বাংলা হস্তশিল্পের উপর সেশন।</li>
+                            <li><span class="font-semibold text-indigo-600">শিক্ষামূলক নাটক:</span> সামাজিক সচেতনতা ভিত্তিক শিক্ষামূলক নাটক ("জাগরণ" থিমের উপর)।</li>
+                            <li><span class="font-semibold text-indigo-600">শিল্প প্রদর্শনী:</span> স্থানীয় চিত্রশিল্পী ও ফটোগ্রাফারদের কাজের প্রদর্শনী।</li>
+                            <li><span class="font-semibold text-indigo-600">খাবারের স্টল:</span> ঐতিহ্যবাহী বাঙালি খাবার এবং বিভিন্ন সুস্বাদু জলখাবারের ব্যবস্থা।</li>
+                        </ul>
+                        <p class="mt-4 text-center text-sm text-indigo-500 font-medium">— এই সাংস্কৃতিক জাগরণের সাক্ষী হতে আমাদের সাথে যোগ দিন। —</p>
                     </div>
-
-                    <!-- Left/Right Controls -->
-                    <button id="prevBtn" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition" aria-label="Previous Reel">
-                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                    </button>
-                    <button id="nextBtn" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition" aria-label="Next Reel">
-                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </button>
-                    
                 </div>
             </section>
 
-            <!-- 3. BOOK TICKET Call-to-Action (CTA) Button -->
-            <section class="text-center py-16">
-                <h2 class="text-4xl font-extrabold text-gray-800 mb-6">Ready to Join the Celebration?</h2>
+            <!-- টিকিট বুকিং Call-to-Action (CTA) বাটন -->
+            <section class="text-center py-8">
+                <h2 class="text-4xl font-extrabold text-gray-800 mb-6">উদযাপনে যোগ দিতে প্রস্তুত?</h2>
                 <button id="ctaTicketButton" 
                     class="ticket-button-cta text-white font-bold text-xl px-12 py-4 rounded-full shadow-2xl uppercase tracking-wider"
                     onclick="handleTicketClick()">
-                    BOOK TICKET NOW
+                    এখনই টিকিট বুক করুন
                 </button>
-                <p class="text-sm text-gray-500 mt-4">Limited Seats Available. Secure your spot today!</p>
+                <p class="text-sm text-gray-500 mt-4">আসন সীমিত। আজই আপনার স্থান নিশ্চিত করুন!</p>
             </section>
 
-            <!-- Placeholder anchors for navigation links (as content sections were removed) -->
-            <div id="about-placeholder"></div>
+            <!-- ইউটিউব প্লেলিস্ট ক্যারোসেল সেকশন -->
+            <section id="playlist-section" class="py-10 px-4 sm:px-8 bg-white rounded-xl shadow-xl max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-700 mb-6 text-center">জাগরণ প্লেলিস্ট</h2>
+                
+                <!-- YouTube Player Container -->
+                <div class="video-container"> 
+                    <!-- This div is the placeholder for the YouTube Player --><div id="playlistPlayer"></div> 
+                </div>
+
+                <!-- Navigation Controls and Video Counter -->
+                <div class="flex flex-col items-center mt-6"> 
+                    <!-- Updated title text for single video mode --><p id="videoTitle" class="text-lg font-semibold text-gray-800 mb-4 text-center h-6 overflow-hidden">
+                        ভিডিও লোড হচ্ছে...
+                    </p>
+                    
+                    <div class="flex space-x-6">
+                        <!-- Previous Button (Only Icon) -->
+                        <button id="prevBtn" onclick="changePlaylistVideo(-1)" 
+                            class="carousel-btn text-white font-bold p-3 rounded-full shadow-lg flex items-center justify-center w-12 h-12" 
+                            disabled>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg> 
+                        </button>
+                        
+                        <!-- Video Counter & Status --><div id="videoCounter" class="flex items-center justify-center text-xl font-bold text-indigo-600 bg-indigo-100 px-4 rounded-full shadow-inner min-w-[70px]">
+                            লোড হচ্ছে...
+                        </div>
+                        
+                        <!-- Next Button (Only Icon) -->
+                        <button id="nextBtn" onclick="changePlaylistVideo(1)" 
+                            class="carousel-btn text-white font-bold p-3 rounded-full shadow-lg flex items-center justify-center w-12 h-12" 
+                            disabled>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Placeholder anchors for navigation links --><div id="about-placeholder"></div>
             <div id="contact-placeholder"></div>
             <div id="address-placeholder"></div>
 
         </main>
     </div>
 
+    <!-- ফুটার/কপিরাইট সেকশন -->
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8 rounded-t-xl shadow-inner">
+        <p class="text-sm text-gray-400">© ২০২৫ জাগরণ সাংস্কৃতিক উৎসব | সর্বস্বত্ত্ব সংরক্ষিত।</p>
+    </footer>
+
     <script>
         // --- Configuration & Initialization ---
-        // Updated: Using the external link provided by the user for the Ticket page
         const TICKET_LINK = "https://jagoronculturalsio.github.io/ticket/"; 
-        const reels = document.querySelectorAll('.reel-video');
-        const reelCarousel = document.getElementById('reelCarousel');
-        const reelSection = document.getElementById('reels-section');
-        const mainVideoFrame = document.getElementById('mainVideoFrame');
-        const mainVideoContainer = document.getElementById('main-video-section');
+        const PLAYLIST_ID = "PLGhDEZQb-0gCrSAjpAvdXU2fLKWMbRvRm"; 
+        
+        // --- Variables for Highlights Toggle ---
+        const toggleHighlightsBtn = document.getElementById('toggleHighlightsBtn');
+        const highlightsContent = document.getElementById('highlights-content');
+        const toggleIcon = document.getElementById('toggleIcon');
 
-        let currentReelIndex = 0;
-        let isReelSectionVisible = false;
-
+        // --- Playlist Carousel Variables ---
+        let player; // Global variable for the YouTube Player object
+        const videoCounter = document.getElementById('videoCounter');
+        const videoTitleDisplay = document.getElementById('videoTitle');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
         // --- Firebase/Auth Setup (Mandatory in this environment) ---
-        // NOTE: Although not strictly used for data storage here, 
-        // this block is included as per the single-file environment requirements.
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        // Placeholder for future use:
-        // import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        // import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
 
         // --- Interaction Logic: Ticket Button Handler ---
         function handleTicketClick() {
-            // Function to handle both Ticket buttons, ensuring it opens in the SAME tab.
-            // Since the button is not an <a> tag, we use window.location.href.
             window.location.href = TICKET_LINK;
         }
 
-        // --- Interaction Logic: Reels Carousel ---
-        function updateReelCarousel() {
-            // Calculate the width of a single reel item (100% of parent container + padding/margin)
-            const reelWidth = reelCarousel.children[0].offsetWidth; 
-            const newTranslateX = -currentReelIndex * reelWidth;
-            
-            // Apply the transformation to the carousel wrapper
-            reelCarousel.style.transform = `translateX(${newTranslateX}px)`;
+        // --- Interaction Logic: Highlights Toggle ---
+        function toggleHighlights() {
+            const isExpanded = toggleHighlightsBtn.getAttribute('aria-expanded') === 'true';
 
-            // Manage play/pause state when the carousel moves
-            if (isReelSectionVisible) {
-                playActiveReel();
+            if (isExpanded) {
+                highlightsContent.style.maxHeight = '0';
+                toggleHighlightsBtn.setAttribute('aria-expanded', 'false');
+                toggleIcon.classList.remove('rotated-icon');
+            } else {
+                highlightsContent.style.maxHeight = highlightsContent.scrollHeight + 'px';
+                toggleHighlightsBtn.setAttribute('aria-expanded', 'true');
+                toggleIcon.classList.add('rotated-icon');
+            }
+        }
+        
+        // --- YouTube Player API Functions ---
+        
+        // This function is called automatically by the YouTube API script 
+        window.onYouTubeIframeAPIReady = function() {
+            // Create the YouTube player instance
+            player = new YT.Player('playlistPlayer', {
+                height: '100%',
+                width: '100%',
+                playerVars: {
+                    // Re-enabling playlist mode:
+                    'listType': 'playlist', 
+                    'list': PLAYLIST_ID, 
+                    'controls': 1,
+                    'modestbranding': 1,
+                    'rel': 0,
+                    'autoplay': 0 // We don't want it to auto-play on load
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            console.log("YouTube Playlist Player is Ready.");
+            // Initial update when the player is loaded
+            updateCarouselStatus();
+        }
+        
+        function onPlayerStateChange(event) {
+            // Update status whenever the video changes or state changes (e.g., video ends)
+            if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+                updateCarouselStatus();
+            }
+            // If the video ends, automatically go to the next video (optional but good for carousels)
+            if (event.data === YT.PlayerState.ENDED) {
+                // We use nextVideo() here, but the updateCarouselStatus will handle disabling the button if it's the last video.
+                changePlaylistVideo(1); 
             }
         }
 
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            currentReelIndex = (currentReelIndex > 0) ? currentReelIndex - 1 : reels.length - 1;
-            updateReelCarousel();
-        });
+        // Main function to update the button status and counter/title
+        function updateCarouselStatus() {
+            try {
+                // IMPORTANT: The player might throw an error if the playlist is restricted. 
+                // We assume getPlaylist() will work if the playlist is embeddable.
+                const playlistLength = player.getPlaylist().length;
+                // getPlaylistIndex returns 0-based index. We convert to 1-based for display.
+                const playlistIndex = player.getPlaylistIndex() + 1; 
 
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            currentReelIndex = (currentReelIndex < reels.length - 1) ? currentReelIndex + 1 : 0;
-            updateReelCarousel();
-        });
+                // 1. Update Counter (Translated to Bengali)
+                videoCounter.textContent = `${playlistIndex} / ${playlistLength}`;
 
-        // --- Interaction Logic: Video Play/Pause based on Scroll (Intersection Observer) ---
-
-        function pauseAllReels() {
-            reels.forEach(reel => reel.pause());
-        }
-
-        function playActiveReel() {
-            // Pause all first
-            pauseAllReels(); 
-            // Play the currently active reel
-            reels[currentReelIndex].currentTime = 0; // Rewind to start
-            reels[currentReelIndex].play().catch(e => console.log("Reel play failed (user interaction needed or mute policy):", e));
-        }
-
-        function pauseMainVideo() {
-            // YouTube iframe cannot be reliably paused without the YouTube Player API.
-            // The simplest workaround is to hide the iframe or replace its source to stop playback.
-            // Here, we'll stop the user's perception of it playing by setting its display to none.
-            mainVideoFrame.style.opacity = '0';
-            mainVideoFrame.style.pointerEvents = 'none';
-        }
-
-        function playMainVideo() {
-            // Simply make the iframe visible again. Since it was set with autoplay, 
-            // the video is likely still loaded and paused in the background or restarting.
-            mainVideoFrame.style.opacity = '1';
-            mainVideoFrame.style.pointerEvents = 'auto';
-            // Note: True YouTube pause/play requires the API, which we avoid for single-file simplicity.
-            // We rely on the autoplay parameter and visual hide/show.
-        }
-
-        // Observer for the Reels Section
-        const reelsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                isReelSectionVisible = entry.isIntersecting;
-                if (entry.isIntersecting) {
-                    // Reels are in view: Pause Main Video and Play Active Reel
-                    pauseMainVideo();
-                    playActiveReel();
+                // 2. Update Title (Translated to Bengali if data is missing)
+                const videoData = player.getVideoData();
+                if (videoData && videoData.title) {
+                    videoTitleDisplay.textContent = videoData.title;
                 } else {
-                    // Reels are NOT in view: Play Main Video and Pause All Reels
-                    playMainVideo();
-                    pauseAllReels();
+                    videoTitleDisplay.textContent = `ভিডিও লোড হচ্ছে...`; // Translated
                 }
-            });
-        }, {
-            threshold: 0.5 // Trigger when 50% of the reels section is visible
-        });
 
-        // Start observing the Reels section
-        if (reelSection) {
-            reelsObserver.observe(reelSection);
+                // 3. Update Buttons
+                prevBtn.disabled = (playlistIndex <= 1);
+                nextBtn.disabled = (playlistIndex >= playlistLength);
+
+            } catch (error) {
+                console.warn("Player data not fully available yet or there is an issue with the playlist. Retrying update or showing error message.");
+                // If it fails after a few retries, it's likely the embedding restriction error again.
+                videoCounter.textContent = `ত্রুটি!`; // Translated
+                videoTitleDisplay.textContent = `প্লেলিস্ট লোড করতে সমস্যা হচ্ছে।`; // Translated
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
+                
+                // Fallback retry for initial load race condition
+                // Only retry once to avoid infinite loops if it's a genuine error.
+                if (videoCounter.textContent === 'লোড হচ্ছে...') { // Check against translated string
+                    setTimeout(updateCarouselStatus, 500); 
+                }
+            }
+        }
+        
+        // Function called by the buttons to change the video
+        window.changePlaylistVideo = function(direction) {
+            if (player) {
+                if (direction === 1) {
+                    // Go to next video
+                    player.nextVideo();
+                } else if (direction === -1) {
+                    // Go to previous video
+                    player.previousVideo();
+                }
+                // Give a moment for the new video data to load before updating status
+                setTimeout(updateCarouselStatus, 200); 
+            }
         }
 
-        // Initialize carousel position on load
+        // Initialize events on load
         window.addEventListener('load', () => {
-            updateReelCarousel();
-            // Start main video immediately (it's already set to autoplay via src URL)
-            playMainVideo(); 
+            // Attach toggle listener
+            if (toggleHighlightsBtn) {
+                toggleHighlightsBtn.addEventListener('click', toggleHighlights);
+            }
+            
+            // Note: onYouTubeIframeAPIReady handles player initialization automatically.
         });
 
     </script>
