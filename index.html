@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAGARAN - Annual Cultural Program</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+        }
+        /* Custom styles for video container aspect ratio */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .video-container iframe,
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .reel-video {
+            width: 100%;
+            flex-shrink: 0;
+            height: 400px; /* Fixed height for reels */
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+        .reel-container-wrapper {
+            transition: transform 0.5s ease-in-out;
+        }
+        .nav-button:hover {
+            color: #4f46e5;
+            background-color: #eef2ff;
+        }
+        /* Style for the ticket button */
+        .ticket-button-cta {
+            background: linear-gradient(90deg, #4f46e5 0%, #8b5cf6 100%);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .ticket-button-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.5);
+        }
+        /* Highlight style for active navigation links */
+        .nav-active {
+            background-color: #4f46e5; /* indigo-600 */
+            color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .nav-active:hover {
+            background-color: #4338ca; /* indigo-700 */
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div id="app" class="container mx-auto p-4 md:p-8">
+
+        <!-- Navigation Bar -->
+        <header class="flex flex-col md:flex-row justify-between items-center bg-white p-4 md:p-6 rounded-xl shadow-lg mb-12 sticky top-0 z-50">
+            
+            <!-- Left Group: JAGARAN (Above) and Home (Highlighted) -->
+            <div class="flex flex-col md:flex-row items-center mb-4 md:mb-0">
+                <!-- JAGARAN Text -->
+                <div class="text-3xl font-extrabold text-indigo-600 tracking-wider mb-2 md:mb-0 md:mr-6">
+                    <!-- Updated: Link to Home page URL -->
+                    <a href="https://jagoronculturalsio.github.io/home/">JAGARAN</a>
+                </div>
+                <!-- Home Button (Highlighted/Active) -->
+                <a href="https://jagoronculturalsio.github.io/home/" id="homeButton" 
+                   class="nav-button nav-active px-4 py-2 rounded-lg transition duration-300">
+                    Home
+                </a>
+            </div>
+            
+            <!-- Right Group: Nav Links (About, Contact, Address, Ticket) -->
+            <nav class="flex flex-wrap justify-center space-x-2 md:space-x-4 font-semibold">
+                <!-- Updated: Link to About page URL -->
+                <a href="https://jagoronculturalsio.github.io/about/" class="nav-button p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                <!-- Updated: Link to Contact page URL -->
+                <a href="https://jagoronculturalsio.github.io/contact/" class="nav-button p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                <!-- Updated: Link to Address page URL -->
+                <a href="https://jagoronculturalsio.github.io/address/" class="nav-button p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition duration-300">Address</a>
+                <!-- Ticket button - Now standard style, but link is handled by JS -->
+                <button id="navTicketButton" 
+                    class="nav-button text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-300 shadow-sm border border-gray-200"
+                    onclick="handleTicketClick()">
+                    Ticket
+                </button>
+            </nav>
+        </header>
+
+        <main class="space-y-16">
+
+            <!-- Main Title Section -->
+            <section id="home" class="text-center pt-8">
+                <h1 class="text-5xl md:text-7xl font-black text-gray-800 mb-4">
+                    Experience <span class="text-indigo-600">JAGARAN</span>
+                </h1>
+                <p class="text-xl text-gray-500">The Annual Cultural Awakening. Join us for an unforgettable celebration.</p>
+            </section>
+
+            <!-- 1. Main YouTube Video Section -->
+            <section id="main-video-section" class="max-w-4xl mx-auto" aria-label="Program Details Video">
+                <h2 class="text-3xl font-bold text-gray-700 mb-4 text-center">Program Highlights (Video Details)</h2>
+                <div id="mainVideoContainer" class="video-container">
+                    <!-- 
+                        YouTube embed URL parameters:
+                        ?autoplay=1 - Essential for attempting autoplay on most browsers.
+                        &loop=1&playlist=mc1xggktlro - Loops the video.
+                        &controls=0 - Hides controls for a cleaner look. 
+                    -->
+                    <iframe 
+                        id="mainVideoFrame"
+                        src="https://www.youtube.com/embed/mc1xggktlro?autoplay=1&loop=1&playlist=mc1xggktlro&controls=0&playsinline=1"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                        title="JAGARAN Program Details Video"
+                        frameborder="0">
+                    </iframe>
+                </div>
+                <div class="text-center text-sm text-gray-400 mt-2">
+                    Note: Video is muted by default for autoplay compliance. Please unmute manually if needed.
+                </div>
+            </section>
+
+            <!-- 2. Reels/Short Videos Section (Carousel) -->
+            <section id="reels-section" class="py-10 bg-white rounded-xl shadow-xl">
+                <h2 class="text-3xl font-bold text-gray-700 mb-6 text-center">Sneak Peek - JAGARAN Reels</h2>
+                <div class="relative max-w-lg mx-auto overflow-hidden">
+                    
+                    <!-- Reels Container -->
+                    <div id="reelCarousel" class="reel-container-wrapper flex">
+                        <!-- Reel 1 -->
+                        <div class="p-2">
+                            <video id="reel1" class="reel-video" controls loop playsinline preload="auto">
+                                <source src="https://assets.mixkit.co/videos/preview/mixkit-girl-smiling-on-a-beach-at-sunset-41804-large.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <p class="text-center text-sm text-gray-500 mt-2">Past Year's Vibe</p>
+                        </div>
+                        <!-- Reel 2 -->
+                        <div class="p-2">
+                            <video id="reel2" class="reel-video" controls loop playsinline preload="auto">
+                                <source src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-a-man-doing-a-stunt-on-a-skateboard-35074-large.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <p class="text-center text-sm text-gray-500 mt-2">Dance Performance Glimpse</p>
+                        </div>
+                        <!-- Reel 3 -->
+                        <div class="p-2">
+                            <video id="reel3" class="reel-video" controls loop playsinline preload="auto">
+                                <source src="https://assets.mixkit.co/videos/preview/mixkit-young-man-playing-the-guitar-in-nature-1510-large.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <p class="text-center text-sm text-gray-500 mt-2">Music Night</p>
+                        </div>
+                    </div>
+
+                    <!-- Left/Right Controls -->
+                    <button id="prevBtn" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition" aria-label="Previous Reel">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button id="nextBtn" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition" aria-label="Next Reel">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                    
+                </div>
+            </section>
+
+            <!-- 3. BOOK TICKET Call-to-Action (CTA) Button -->
+            <section class="text-center py-16">
+                <h2 class="text-4xl font-extrabold text-gray-800 mb-6">Ready to Join the Celebration?</h2>
+                <button id="ctaTicketButton" 
+                    class="ticket-button-cta text-white font-bold text-xl px-12 py-4 rounded-full shadow-2xl uppercase tracking-wider"
+                    onclick="handleTicketClick()">
+                    BOOK TICKET NOW
+                </button>
+                <p class="text-sm text-gray-500 mt-4">Limited Seats Available. Secure your spot today!</p>
+            </section>
+
+            <!-- Placeholder anchors for navigation links (as content sections were removed) -->
+            <div id="about-placeholder"></div>
+            <div id="contact-placeholder"></div>
+            <div id="address-placeholder"></div>
+
+        </main>
+    </div>
+
+    <script>
+        // --- Configuration & Initialization ---
+        // Updated: Using the external link provided by the user for the Ticket page
+        const TICKET_LINK = "https://jagoronculturalsio.github.io/ticket/"; 
+        const reels = document.querySelectorAll('.reel-video');
+        const reelCarousel = document.getElementById('reelCarousel');
+        const reelSection = document.getElementById('reels-section');
+        const mainVideoFrame = document.getElementById('mainVideoFrame');
+        const mainVideoContainer = document.getElementById('main-video-section');
+
+        let currentReelIndex = 0;
+        let isReelSectionVisible = false;
+
+        // --- Firebase/Auth Setup (Mandatory in this environment) ---
+        // NOTE: Although not strictly used for data storage here, 
+        // this block is included as per the single-file environment requirements.
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        // Placeholder for future use:
+        // import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        // import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+
+        // --- Interaction Logic: Ticket Button Handler ---
+        function handleTicketClick() {
+            // Function to handle both Ticket buttons, ensuring it opens in the SAME tab.
+            // Since the button is not an <a> tag, we use window.location.href.
+            window.location.href = TICKET_LINK;
+        }
+
+        // --- Interaction Logic: Reels Carousel ---
+        function updateReelCarousel() {
+            // Calculate the width of a single reel item (100% of parent container + padding/margin)
+            const reelWidth = reelCarousel.children[0].offsetWidth; 
+            const newTranslateX = -currentReelIndex * reelWidth;
+            
+            // Apply the transformation to the carousel wrapper
+            reelCarousel.style.transform = `translateX(${newTranslateX}px)`;
+
+            // Manage play/pause state when the carousel moves
+            if (isReelSectionVisible) {
+                playActiveReel();
+            }
+        }
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            currentReelIndex = (currentReelIndex > 0) ? currentReelIndex - 1 : reels.length - 1;
+            updateReelCarousel();
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            currentReelIndex = (currentReelIndex < reels.length - 1) ? currentReelIndex + 1 : 0;
+            updateReelCarousel();
+        });
+
+        // --- Interaction Logic: Video Play/Pause based on Scroll (Intersection Observer) ---
+
+        function pauseAllReels() {
+            reels.forEach(reel => reel.pause());
+        }
+
+        function playActiveReel() {
+            // Pause all first
+            pauseAllReels(); 
+            // Play the currently active reel
+            reels[currentReelIndex].currentTime = 0; // Rewind to start
+            reels[currentReelIndex].play().catch(e => console.log("Reel play failed (user interaction needed or mute policy):", e));
+        }
+
+        function pauseMainVideo() {
+            // YouTube iframe cannot be reliably paused without the YouTube Player API.
+            // The simplest workaround is to hide the iframe or replace its source to stop playback.
+            // Here, we'll stop the user's perception of it playing by setting its display to none.
+            mainVideoFrame.style.opacity = '0';
+            mainVideoFrame.style.pointerEvents = 'none';
+        }
+
+        function playMainVideo() {
+            // Simply make the iframe visible again. Since it was set with autoplay, 
+            // the video is likely still loaded and paused in the background or restarting.
+            mainVideoFrame.style.opacity = '1';
+            mainVideoFrame.style.pointerEvents = 'auto';
+            // Note: True YouTube pause/play requires the API, which we avoid for single-file simplicity.
+            // We rely on the autoplay parameter and visual hide/show.
+        }
+
+        // Observer for the Reels Section
+        const reelsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                isReelSectionVisible = entry.isIntersecting;
+                if (entry.isIntersecting) {
+                    // Reels are in view: Pause Main Video and Play Active Reel
+                    pauseMainVideo();
+                    playActiveReel();
+                } else {
+                    // Reels are NOT in view: Play Main Video and Pause All Reels
+                    playMainVideo();
+                    pauseAllReels();
+                }
+            });
+        }, {
+            threshold: 0.5 // Trigger when 50% of the reels section is visible
+        });
+
+        // Start observing the Reels section
+        if (reelSection) {
+            reelsObserver.observe(reelSection);
+        }
+
+        // Initialize carousel position on load
+        window.addEventListener('load', () => {
+            updateReelCarousel();
+            // Start main video immediately (it's already set to autoplay via src URL)
+            playMainVideo(); 
+        });
+
+    </script>
+</body>
+</html>
